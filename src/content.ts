@@ -20,21 +20,33 @@ function casksForURL(url: Location): string[] {
 const url = document.location;
 const casks = casksForURL(url);
 if (casks.length > 0) {
-  const wrapper = document.createElement("div");
-  wrapper.attachShadow({ mode: "open" });
-  if (wrapper.shadowRoot) {
-    wrapper.shadowRoot.innerHTML = "<style>:host {all: initial;}</style>";
+  const sRoot = document.createElement("div");
+  sRoot.attachShadow({ mode: "open" });
+  if (sRoot.shadowRoot) {
+    sRoot.shadowRoot.innerHTML = "<style>:host {all: initial;}</style>";
   }
+  const wrapper = document.createElement("div");
+  wrapper.style.backgroundColor = "#2e2a24";
+  wrapper.style.color = "#f9d094";
+  wrapper.style.fontFamily = "Helvetica, Arial, sans-serif";
+  wrapper.style.padding = "5px 10px";
+  sRoot.shadowRoot?.append(wrapper);
+
+  const blurb = document.createElement("div");
+  blurb.innerText = "Available to install as a Homebrew Cask:";
+  wrapper.append(blurb);
+
   casks.forEach((cask) => {
     const installParagraph = document.createElement("div");
     const brewCommand = `brew install --cask ${cask}`;
     installParagraph.innerHTML = `<code>${brewCommand}</code>`;
-    installParagraph.style.backgroundColor = "red";
     installParagraph.style.padding = "2px 10px";
 
     const copyButton: HTMLButtonElement = document.createElement("button");
     copyButton.style.margin = "0 10px";
     copyButton.style.border = "0";
+    copyButton.style.backgroundColor = "#f9d094";
+    copyButton.style.color = "#2e2a24";
     copyButton.textContent = "Copy";
     copyButton.onclick = async () => {
       try {
@@ -49,10 +61,11 @@ if (casks.length > 0) {
     };
 
     installParagraph.appendChild(copyButton);
-    wrapper.shadowRoot?.appendChild(installParagraph);
+    wrapper.appendChild(installParagraph);
   });
 
-  document.body.insertBefore(wrapper, document.body.firstChild);
+  sRoot.shadowRoot?.append(wrapper);
+  document.body.insertBefore(sRoot, document.body.firstChild);
 } else {
   console.log(`No cask found for ${url}`);
 }
