@@ -8861,7 +8861,7 @@
   },
   {
     "token": "miniconda",
-    "homepage": "https://conda.io/miniconda.html"
+    "homepage": "https://docs.conda.io/en/latest/miniconda.html"
   },
   {
     "token": "miniforge",
