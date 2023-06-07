@@ -13,7 +13,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack/webpack.config.js",
-    "watch": "webpack --watch --config webpack/webpack.config.js"
+    "watch": "webpack --watch --config webpack/webpack.config.js",
+    "update-casks": "curl https://formulae.brew.sh/api/cask.json  | jq '[.[] | {token: .token, homepage: .homepage}]' > src/cask-slim.json"
   },
   "keywords": [],
   "author": "",
